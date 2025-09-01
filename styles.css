@@ -56,6 +56,7 @@ html, body{
     align-items: center;
 }
 
+
 .home-page-text{
     font-size: 75px;
     padding: 0 200px;
@@ -92,4 +93,155 @@ footer{
 a{
     text-decoration: none;
     color: #EEEEEE;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #393E46;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    color: #EEEEEE;
+    position: relative;
+}
+
+.close {
+    color: #EEEEEE;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+.close:hover {
+    color: #00ADB5;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #00ADB5;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #222831;
+    border-radius: 5px;
+    background-color: #EEEEEE;
+    color: #393E46;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #00ADB5;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #00ADB5;
+    color: #EEEEEE;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #008B94;
+    transition: 0.3s;
+}
+
+.form-switch {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-switch a {
+    color: #00ADB5;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.form-switch a:hover {
+    color: #008B94;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: #51cf66;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* User Profile Styles */
+.user-profile {
+    display: none;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #00ADB5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EEEEEE;
+    font-weight: bold;
+}
+
+.user-name {
+    color: #EEEEEE;
+    font-size: 16px;
+}
+
+.logout-btn {
+    background-color: #ff6b6b;
+    color: #EEEEEE;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background-color: #ff5252;
+    transition: 0.3s;
 }
