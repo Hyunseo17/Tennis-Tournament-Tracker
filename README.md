@@ -57,13 +57,51 @@ TableTennis/
 ## API Endpoints
 
 ### Authentication Routes
-- `POST /api/auth/signup` - Create a new user account
+- `POST /api/auth/signup` - Create a new user account (requires email verification)
 - `POST /api/auth/signin` - Sign in with email and password
+- `POST /api/auth/signin-2fa` - Sign in with 2FA support
 - `GET /api/auth/verify` - Verify JWT token
 - `POST /api/auth/logout` - Logout (client-side token removal)
+- `GET /api/auth/verify-email?token=` - Verify email address
+- `POST /api/auth/resend-verification` - Resend verification email
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
 
-### Protected Routes
+### Social Login Routes
+- `GET /api/auth/google` - Google OAuth login
+- `GET /api/auth/google/callback` - Google OAuth callback
+- `GET /api/auth/facebook` - Facebook OAuth login
+- `GET /api/auth/facebook/callback` - Facebook OAuth callback
+- `GET /api/auth/instagram` - Instagram OAuth login
+- `GET /api/auth/instagram/callback` - Instagram OAuth callback
+
+### Two-Factor Authentication
+- `POST /api/auth/2fa/setup` - Setup 2FA (generate QR code)
+- `POST /api/auth/2fa/verify` - Verify 2FA token
+- `POST /api/auth/2fa/disable` - Disable 2FA
+
+### User Profile Routes
 - `GET /api/user/profile` - Get user profile (requires authentication)
+- `PUT /api/user/profile` - Update user profile
+- `POST /api/user/avatar` - Upload avatar image
+- `POST /api/user/change-password` - Change password
+
+### Tournament Routes
+- `GET /api/tournaments` - List tournaments (with filtering)
+- `GET /api/tournaments/:id` - Get tournament details
+- `POST /api/tournaments` - Create tournament (requires authentication)
+- `POST /api/tournaments/:id/register` - Register for tournament
+- `DELETE /api/tournaments/:id/register` - Unregister from tournament
+- `GET /api/user/tournaments` - Get user's tournament registrations
+
+### Admin Routes (Admin only)
+- `GET /api/admin/users` - List all users (with search/filter)
+- `PUT /api/admin/users/:id/role` - Change user role
+- `DELETE /api/admin/users/:id` - Delete user
+- `GET /api/admin/tournaments` - List all tournaments (admin view)
+- `PUT /api/admin/tournaments/:id/status` - Update tournament status
+- `DELETE /api/admin/tournaments/:id` - Delete tournament
+- `GET /api/admin/stats` - Get system statistics
 
 ## Security Features
 
@@ -79,9 +117,50 @@ TableTennis/
 For production, set these environment variables:
 
 ```bash
+# Server Configuration
 JWT_SECRET=your-super-secret-jwt-key-here
 PORT=3000
+
+# Email Configuration (for email verification and password reset)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=noreply@tabletennis.com
+
+# Social Login Configuration
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+FACEBOOK_APP_ID=your-facebook-app-id
+FACEBOOK_APP_SECRET=your-facebook-app-secret
+INSTAGRAM_CLIENT_ID=your-instagram-client-id
+INSTAGRAM_CLIENT_SECRET=your-instagram-client-secret
 ```
+
+### Setting up Social Login
+
+1. **Google OAuth:**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select existing one
+   - Enable Google+ API
+   - Create OAuth 2.0 credentials
+   - Add authorized redirect URI: `http://localhost:3000/api/auth/google/callback`
+
+2. **Facebook OAuth:**
+   - Go to [Facebook Developers](https://developers.facebook.com/)
+   - Create a new app
+   - Add Facebook Login product
+   - Set valid OAuth redirect URI: `http://localhost:3000/api/auth/facebook/callback`
+
+3. **Instagram OAuth:**
+   - Go to [Facebook Developers](https://developers.facebook.com/)
+   - Create a new app
+   - Add Instagram Basic Display product
+   - Set valid OAuth redirect URI: `http://localhost:3000/api/auth/instagram/callback`
+
+### Setting up Email (Gmail)
+
+1. Enable 2-factor authentication on your Gmail account
+2. Generate an "App Password" for this application
+3. Use the app password as `EMAIL_PASS`
 
 ## Usage
 
@@ -134,16 +213,68 @@ For production deployment, consider:
 
 Check the console output for detailed error messages and debugging information.
 
-## Next Steps
+## New Features Implemented
 
-Consider adding these features:
-- Email verification for new accounts
-- Password reset functionality
-- User profile management
-- Tournament registration system
-- Admin panel for managing users and tournaments
-- Social login (Google, Facebook)
-- Two-factor authentication
+### ✅ Email Verification
+- **Automatic email verification** for new accounts
+- **Resend verification email** functionality
+- **Email verification page** with user-friendly interface
+- **Secure verification tokens** with 24-hour expiration
+
+### ✅ Password Reset
+- **Forgot password** functionality with email reset links
+- **Secure reset tokens** with 1-hour expiration
+- **Password reset page** with token validation
+- **One-time use tokens** for security
+
+### ✅ User Profile Management
+- **Complete profile editing** (name, phone, date of birth, skill level)
+- **Avatar upload** with image validation (5MB limit)
+- **Profile page** with tabbed interface
+- **Password change** functionality
+- **Real-time profile updates**
+
+### ✅ Tournament Registration System
+- **Create tournaments** with full details (name, location, dates, fees, skill levels)
+- **Tournament browsing** with filtering by status and skill level
+- **User registration** for tournaments with capacity limits
+- **Registration management** (view, cancel registrations)
+- **Tournament status tracking** (upcoming, ongoing, completed, cancelled)
+
+### ✅ Admin Panel
+- **Comprehensive user management** (view, edit roles, delete users)
+- **Tournament management** (create, edit, delete, change status)
+- **Admin statistics dashboard** with key metrics
+- **Role-based access control** (user, moderator, admin)
+- **Search and filtering** capabilities
+- **Pagination** for large datasets
+
+### ✅ Social Login Integration
+- **Google OAuth 2.0** integration
+- **Facebook OAuth** integration  
+- **Instagram OAuth** integration
+- **Automatic account linking** for existing users
+- **Social profile data** import
+- **Seamless authentication flow**
+
+### ✅ Two-Factor Authentication (2FA)
+- **TOTP-based 2FA** using Google Authenticator or similar apps
+- **QR code generation** for easy setup
+- **Manual key entry** option
+- **2FA enforcement** during login
+- **Easy enable/disable** functionality
+- **Secure secret storage**
+
+## Enhanced Security Features
+
+- **Rate limiting** on authentication endpoints
+- **Email rate limiting** to prevent spam
+- **Input validation** with Joi schemas
+- **SQL injection protection** with parameterized queries
+- **Password hashing** with bcrypt (12 salt rounds)
+- **JWT token security** with configurable secrets
+- **CORS protection** and security headers
+- **File upload validation** and size limits
 
 ## Support
 

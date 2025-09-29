@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Getting Started - Tournament Signup</title>
 </head>
 <body>
     <div class="nav-bar">
@@ -31,64 +31,29 @@
         </div>
     </div>
     <div class="body">
-        <section style="max-width: 1000px; margin: 0 auto;">
-            <h1>Upcoming Tournaments</h1>
-            <p>Register to compete and view the bracket below. Brackets update as results are recorded.</p>
-
-            <div id="bracket" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: start;">
-                <div class="round" aria-label="Quarterfinals">
-                    <h3>Quarterfinals</h3>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                        <div>1) Alice</div>
-                        <div>8) Henry</div>
-                    </div>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                        <div>4) David</div>
-                        <div>5) Emma</div>
-                    </div>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                        <div>2) Bob</div>
-                        <div>7) Grace</div>
-                    </div>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                        <div>3) Carol</div>
-                        <div>6) Frank</div>
-                    </div>
-                </div>
-                <div class="round" aria-label="Semifinals">
-                    <h3>Semifinals</h3>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px; min-height: 64px;">
-                        <div>Winner QF1</div>
-                        <div>Winner QF2</div>
-                    </div>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px; min-height: 64px;">
-                        <div>Winner QF3</div>
-                        <div>Winner QF4</div>
-                    </div>
-                </div>
-                <div class="round" aria-label="Final">
-                    <h3>Final</h3>
-                    <div class="match" style="border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px; min-height: 64px;">
-                        <div>Winner SF1</div>
-                        <div>Winner SF2</div>
-                    </div>
-                </div>
-                <div class="round" aria-label="Champion">
-                    <h3>Champion</h3>
-                    <div class="match" style="border: 2px solid #4CAF50; padding: 16px; border-radius: 8px; min-height: 64px; font-weight: bold;">
-                        <div>Winner</div>
-                    </div>
-                </div>
+        <section style="max-width: 900px; margin: 0 auto;">
+            <h1>Getting Started: Tournament Signup</h1>
+            <ol style="line-height: 1.8;">
+                <li><strong>Create an account</strong> via Sign Up, or use Google/Facebook/Instagram.</li>
+                <li><strong>Verify your email</strong> using the link we send (check spam).</li>
+                <li><strong>Complete your profile</strong>: add an avatar and select your skill level.</li>
+                <li><strong>Browse tournaments</strong> on the Tournament page and pick your bracket.</li>
+                <li><strong>Register</strong> for an event; you’ll see your entry reflected in the bracket.</li>
+                <li><strong>Enable 2FA (optional)</strong> in Profile for extra account security.</li>
+            </ol>
+            <h2>Tips</h2>
+            <ul>
+                <li>Arrive 15 minutes early for check-in.</li>
+                <li>Bring your paddle; loaners are limited.</li>
+                <li>Be respectful and enjoy the games!</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a class="button" href="./tournament.html">Go to Tournaments</a>
             </div>
-
-            <p style="margin-top: 16px; color: #666;">Bracket is illustrative. Future enhancement: fetch and render live brackets from the backend.</p>
         </section>
     </div>
-    <footer>
-        <p>Want to participate in future tournaments? <button class="button" id="footer">Check it out here</button></p>
-    </footer>
 
-    <!-- Sign In Modal -->
+    <!-- Modals -->
     <div id="signInModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeSignIn">&times;</span>
@@ -112,22 +77,15 @@
             <div class="social-login">
                 <p>Or sign in with:</p>
                 <div class="social-buttons">
-                    <a href="/api/auth/google" class="social-btn google">
-                        <span>Google</span>
-                    </a>
-                    <a href="/api/auth/facebook" class="social-btn facebook">
-                        <span>Facebook</span>
-                    </a>
-                    <a href="/api/auth/instagram" class="social-btn instagram">
-                        <span>Instagram</span>
-                    </a>
+                    <a href="/api/auth/google" class="social-btn google"><span>Google</span></a>
+                    <a href="/api/auth/facebook" class="social-btn facebook"><span>Facebook</span></a>
+                    <a href="/api/auth/instagram" class="social-btn instagram"><span>Instagram</span></a>
                 </div>
             </div>
             <p class="form-switch">Don't have an account? <a href="#" id="switchToSignUp">Sign Up</a></p>
         </div>
     </div>
 
-    <!-- Sign Up Modal -->
     <div id="signUpModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeSignUp">&times;</span>
@@ -154,20 +112,18 @@
             <div class="social-login">
                 <p>Or sign up with:</p>
                 <div class="social-buttons">
-                    <a href="/api/auth/google" class="social-btn google">
-                        <span>Google</span>
-                    </a>
-                    <a href="/api/auth/facebook" class="social-btn facebook">
-                        <span>Facebook</span>
-                    </a>
-                    <a href="/api/auth/instagram" class="social-btn instagram">
-                        <span>Instagram</span>
-                    </a>
+                    <a href="/api/auth/google" class="social-btn google"><span>Google</span></a>
+                    <a href="/api/auth/facebook" class="social-btn facebook"><span>Facebook</span></a>
+                    <a href="/api/auth/instagram" class="social-btn instagram"><span>Instagram</span></a>
                 </div>
             </div>
             <p class="form-switch">Already have an account? <a href="#" id="switchToSignIn">Sign In</a></p>
         </div>
     </div>
+
+    <footer>
+        <p>Want to participate in future tournaments? <button class="button" id="footer">Check it out here</button></p>
+    </footer>
 
     <script src="../script.js"></script>
 </body>

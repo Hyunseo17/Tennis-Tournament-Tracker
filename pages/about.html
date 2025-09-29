@@ -17,14 +17,131 @@
             <a href="">Dark/Light</a>
         </div>
         <div class="nav-right">
-            <button class="button" id="sign-in">Sign In</button>
-            <button class="button" id="sign-up">Sign Up</button>
+            <div class="auth-buttons">
+                <button class="button" id="sign-in">Sign In</button>
+                <button class="button" id="sign-up">Sign Up</button>
+            </div>
+            <div class="user-profile" id="userProfile">
+                <div class="user-avatar" id="userAvatar"></div>
+                <span class="user-name" id="userName"></span>
+                <a href="./profile.html" class="button">Profile</a>
+                <a href="./admin.html" class="button admin-link" id="adminLink" style="display: none;">Admin</a>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
         </div>
     </div>
-    <div class="body">  
+    <div class="body">
+        <section style="max-width: 900px; margin: 0 auto;">
+            <h1>About Table Tennis</h1>
+            <p>
+                Welcome to our local Table Tennis community hub. This site helps players of all levels
+                discover tournaments, register to compete, and connect with other enthusiasts.
+            </p>
+            <h2>Our Mission</h2>
+            <p>
+                To grow a friendly, inclusive table tennis community by making it easy to join events,
+                track progress, and celebrate great matches.
+            </p>
+            <h2>What You Can Do</h2>
+            <ul>
+                <li>Sign up and verify your account to unlock all features</li>
+                <li>Register for upcoming tournaments and view brackets</li>
+                <li>Manage your profile, including avatar and skill level</li>
+                <li>Enable Two-Factor Authentication for extra security</li>
+                <li>Use Google, Facebook, or Instagram to sign in quickly</li>
+            </ul>
+            <h2>Community Guidelines</h2>
+            <p>
+                Be respectful, play fair, and keep the environment welcoming to players of all backgrounds.
+                Sportsmanship comes first!
+            </p>
+        </section>
     </div>
     <footer>
         <p>Want to participate in future tournaments? <button class="button" id="footer">Check it out here</button></p>
     </footer>
+    
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignIn">&times;</span>
+            <h2>Sign In</h2>
+            <form id="signInForm">
+                <div class="form-group">
+                    <label for="signInEmail">Email:</label>
+                    <input type="email" id="signInEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signInPassword">Password:</label>
+                    <input type="password" id="signInPassword" name="password" required>
+                </div>
+                <div class="form-group" id="twoFactorGroup" style="display: none;">
+                    <label for="twoFactorToken">2FA Code:</label>
+                    <input type="text" id="twoFactorToken" name="twoFactorToken" placeholder="000000" maxlength="6">
+                </div>
+                <button type="submit" class="button submit-btn">Sign In</button>
+                <p><a href="#" id="forgotPassword">Forgot Password?</a></p>
+            </form>
+            <div class="social-login">
+                <p>Or sign in with:</p>
+                <div class="social-buttons">
+                    <a href="/api/auth/google" class="social-btn google">
+                        <span>Google</span>
+                    </a>
+                    <a href="/api/auth/facebook" class="social-btn facebook">
+                        <span>Facebook</span>
+                    </a>
+                    <a href="/api/auth/instagram" class="social-btn instagram">
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+            <p class="form-switch">Don't have an account? <a href="#" id="switchToSignUp">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignUp">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signUpForm">
+                <div class="form-group">
+                    <label for="signUpName">Full Name:</label>
+                    <input type="text" id="signUpName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signUpEmail">Email:</label>
+                    <input type="email" id="signUpEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signUpPassword">Password:</label>
+                    <input type="password" id="signUpPassword" name="password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="button submit-btn">Sign Up</button>
+            </form>
+            <div class="social-login">
+                <p>Or sign up with:</p>
+                <div class="social-buttons">
+                    <a href="/api/auth/google" class="social-btn google">
+                        <span>Google</span>
+                    </a>
+                    <a href="/api/auth/facebook" class="social-btn facebook">
+                        <span>Facebook</span>
+                    </a>
+                    <a href="/api/auth/instagram" class="social-btn instagram">
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+            <p class="form-switch">Already have an account? <a href="#" id="switchToSignIn">Sign In</a></p>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
 </body>
 </html>

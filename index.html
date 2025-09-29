@@ -24,6 +24,8 @@
             <div class="user-profile" id="userProfile">
                 <div class="user-avatar" id="userAvatar"></div>
                 <span class="user-name" id="userName"></span>
+                <a href="./pages/profile.html" class="button">Profile</a>
+                <a href="./pages/admin.html" class="button admin-link" id="adminLink" style="display: none;">Admin</a>
                 <button class="logout-btn" id="logoutBtn">Logout</button>
             </div>
         </div>
@@ -49,8 +51,29 @@
                     <label for="signInPassword">Password:</label>
                     <input type="password" id="signInPassword" name="password" required>
                 </div>
+                <div class="form-group" id="twoFactorGroup" style="display: none;">
+                    <label for="twoFactorToken">2FA Code:</label>
+                    <input type="text" id="twoFactorToken" name="twoFactorToken" placeholder="000000" maxlength="6">
+                </div>
                 <button type="submit" class="button submit-btn">Sign In</button>
+                <p><a href="#" id="forgotPassword">Forgot Password?</a></p>
             </form>
+            
+            <div class="social-login">
+                <p>Or sign in with:</p>
+                <div class="social-buttons">
+                    <a href="/api/auth/google" class="social-btn google">
+                        <span>Google</span>
+                    </a>
+                    <a href="/api/auth/facebook" class="social-btn facebook">
+                        <span>Facebook</span>
+                    </a>
+                    <a href="/api/auth/instagram" class="social-btn instagram">
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+            
             <p class="form-switch">Don't have an account? <a href="#" id="switchToSignUp">Sign Up</a></p>
         </div>
     </div>
@@ -79,6 +102,22 @@
                 </div>
                 <button type="submit" class="button submit-btn">Sign Up</button>
             </form>
+            
+            <div class="social-login">
+                <p>Or sign up with:</p>
+                <div class="social-buttons">
+                    <a href="/api/auth/google" class="social-btn google">
+                        <span>Google</span>
+                    </a>
+                    <a href="/api/auth/facebook" class="social-btn facebook">
+                        <span>Facebook</span>
+                    </a>
+                    <a href="/api/auth/instagram" class="social-btn instagram">
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+            
             <p class="form-switch">Already have an account? <a href="#" id="switchToSignIn">Sign In</a></p>
         </div>
     </div>

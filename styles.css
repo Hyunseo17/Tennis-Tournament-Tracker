@@ -245,3 +245,119 @@ a{
     background-color: #ff5252;
     transition: 0.3s;
 }
+
+/* Social Login Styles */
+.social-login {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.social-login p {
+    margin: 10px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.social-btn.google {
+    background: #db4437;
+    color: white;
+}
+
+.social-btn.google:hover {
+    background: #c23321;
+}
+
+.social-btn.facebook {
+    background: #3b5998;
+    color: white;
+}
+
+.social-btn.facebook:hover {
+    background: #2d4373;
+}
+
+.social-btn.instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+}
+
+.social-btn.instagram:hover {
+    opacity: 0.9;
+}
+
+/* Admin Link */
+.admin-link {
+    background: #ff9800 !important;
+    color: white !important;
+}
+
+.admin-link:hover {
+    background: #f57c00 !important;
+}
+
+/* Enhanced User Profile */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile .button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* Two Factor Authentication Styles */
+#twoFactorGroup {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+#twoFactorGroup label {
+    color: #495057;
+    font-weight: 600;
+}
+
+#twoFactorToken {
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Password Reset Link */
+#forgotPassword {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+#forgotPassword:hover {
+    text-decoration: underline;
+}

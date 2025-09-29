@@ -9,12 +9,23 @@ class AuthSystem {
     init() {
         this.bindEvents();
         this.checkAuthStatus();
+        this.handleSocialLoginRedirect();
     }
 
     bindEvents() {
         // Modal triggers
         document.getElementById('sign-in').addEventListener('click', () => this.showModal('signInModal'));
         document.getElementById('sign-up').addEventListener('click', () => this.showModal('signUpModal'));
+        
+        // Footer CTA
+        const footerBtn = document.getElementById('footer');
+        if (footerBtn) {
+            footerBtn.addEventListener('click', () => {
+                // Resolve relative path whether on root or subpage
+                const to = window.location.pathname.includes('/pages/') ? '../pages/getting-started.html' : './pages/getting-started.html';
+                window.location.href = to;
+            });
+        }
         
         // Modal close buttons
         document.getElementById('closeSignIn').addEventListener('click', () => this.hideModal('signInModal'));
@@ -39,6 +50,12 @@ class AuthSystem {
         
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+        
+        // Forgot password
+        document.getElementById('forgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleForgotPassword();
+        });
         
         // Close modals when clicking outside
         window.addEventListener('click', (e) => {
@@ -131,11 +148,12 @@ class AuthSystem {
         const formData = new FormData(e.target);
         const credentials = {
             email: formData.get('email'),
-            password: formData.get('password')
+            password: formData.get('password'),
+            token: formData.get('twoFactorToken')
         };
 
         try {
-            const response = await fetch(`${this.apiBaseUrl}/auth/signin`, {
+            const response = await fetch(`${this.apiBaseUrl}/auth/signin-2fa`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -146,6 +164,13 @@ class AuthSystem {
             const result = await response.json();
 
             if (response.ok) {
+                if (result.requires2FA) {
+                    // Show 2FA input field
+                    document.getElementById('twoFactorGroup').style.display = 'block';
+                    this.showMessage('signInModal', 'Please enter your 2FA code', 'info');
+                    return;
+                }
+
                 // Store token and user data
                 localStorage.setItem('authToken', result.token);
                 localStorage.setItem('userData', JSON.stringify(result.user));
@@ -154,8 +179,12 @@ class AuthSystem {
                 this.updateUI();
                 this.hideModal('signInModal');
                 e.target.reset();
+                document.getElementById('twoFactorGroup').style.display = 'none';
                 
                 this.showMessage('signInModal', 'Welcome back!', 'success');
+                
+                // Handle social login redirect
+                this.handleSocialLoginRedirect();
             } else {
                 this.showMessage('signInModal', result.message || 'Sign in failed');
             }
@@ -175,9 +204,13 @@ class AuthSystem {
                         'Authorization': `Bearer ${token}`
                     }
                 });
+            } else {
+                // still call endpoint, it is idempotent server-side
+                await fetch(`${this.apiBaseUrl}/auth/logout`, { method: 'POST' });
             }
         } catch (error) {
-            console.error('Logout error:', error);
+            // swallow network errors; proceed to clear local state
+            console.warn('Logout network issue ignored:', error);
         } finally {
             // Clear local storage and update UI regardless of API response
             localStorage.removeItem('authToken');
@@ -222,19 +255,110 @@ class AuthSystem {
         const userProfile = document.getElementById('userProfile');
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
+        const adminLink = document.getElementById('adminLink');
 
         if (this.currentUser) {
             // User is logged in
             authButtons.style.display = 'none';
             userProfile.style.display = 'flex';
             
-            // Set user avatar (first letter of name)
-            userAvatar.textContent = this.currentUser.name.charAt(0).toUpperCase();
+            // Set user avatar (first letter of name or actual avatar)
+            if (this.currentUser.avatar_url) {
+                userAvatar.innerHTML = `<img src="${this.currentUser.avatar_url}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                userAvatar.textContent = this.currentUser.name.charAt(0).toUpperCase();
+            }
             userName.textContent = this.currentUser.name;
+            
+            // Show admin link if user is admin
+            if (this.currentUser.role === 'admin') {
+                adminLink.style.display = 'inline-block';
+            } else {
+                adminLink.style.display = 'none';
+            }
         } else {
             // User is not logged in
             authButtons.style.display = 'flex';
             userProfile.style.display = 'none';
+            adminLink.style.display = 'none';
+        }
+    }
+
+    handleSocialLoginRedirect() {
+        // Handle URL parameters for social login
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const user = urlParams.get('user');
+        const authError = urlParams.get('authError');
+
+        if (authError) {
+            try {
+                this.showMessage('signInModal', 'Social login failed. Please try again.', 'error');
+                // Clean up error param
+                urlParams.delete('authError');
+                const newUrl = `${window.location.pathname}${urlParams.toString() ? '?' + urlParams.toString() : ''}`;
+                window.history.replaceState({}, document.title, newUrl);
+            } catch (_) {}
+        }
+
+        if (token && user) {
+            try {
+                const userData = JSON.parse(decodeURIComponent(user));
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                this.currentUser = userData;
+                this.updateUI();
+                
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                this.showMessage('signInModal', 'Welcome! Social login successful.', 'success');
+            } catch (error) {
+                console.error('Error processing social login:', error);
+            }
+        }
+    }
+
+    async handleForgotPassword() {
+        const email = prompt('Enter your email address:');
+        if (!email) return;
+
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/auth/forgot-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            alert('Failed to send reset email. Please try again.');
+        }
+    }
+
+    showMessage(modalId, message, type = 'error') {
+        const modal = document.getElementById(modalId);
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `${type}-message`;
+        messageDiv.textContent = message;
+        
+        const form = modal.querySelector('form');
+        if (form) {
+            form.appendChild(messageDiv);
+        } else {
+            // For social login messages
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.appendChild(messageDiv);
+        }
+        
+        // Auto-remove success messages after 3 seconds
+        if (type === 'success') {
+            setTimeout(() => messageDiv.remove(), 3000);
         }
     }
 }
